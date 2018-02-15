@@ -11,7 +11,7 @@ public class puzzle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        for (int y = -7; y < 0; y++) //Creting the block of cubes
+        for (int y = 1; y < 8; y++) //Creting the block of cubes
         {
             
             
