@@ -11,7 +11,7 @@ public class puzzle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        for (int y = 1; y < 8; y++) //Creting the block of cubes
+        for (int y = -7; y < 0; y++)
         {
             
             
@@ -36,8 +36,7 @@ public class puzzle : MonoBehaviour {
         
         
     }
-    void CubeMooving()//finding the cubes with the tag, picking random cubes and moving them by fixed position
-	// gameDif is a number of cubes that will be moved 
+    void CubeMooving()
     {
         
         for (int i = 0; i < gameDif; i++)
