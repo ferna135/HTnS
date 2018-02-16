@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityGun : MonoBehaviour {
+public class GravityGun : MonoBehaviour
+{
     //Code based on PushyPixels video
     //Link: https://www.youtube.com/watch?v=sxjJTNDmsug
 
@@ -19,11 +20,13 @@ public class GravityGun : MonoBehaviour {
     public float smooth = 5f;
     private Quaternion targetRotation;
 
+    public puzzle puzzleScript;
 
-    private GameObject heldObject = null; 
+    private GameObject heldObject = null;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
     }
 
     void OnGUI()
@@ -34,19 +37,33 @@ public class GravityGun : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
         Vector2 middleOfScreen = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray myRay = Camera.main.ScreenPointToRay(middleOfScreen);
-
+        Debug.Log(heldObject);
         if (heldObject == null)
         {
             if (Input.GetButton(grabButton))
             {
                 RaycastHit hit;
-                if(Physics.Raycast(myRay, out hit, grabDistance, layerMask))
+                if (Physics.Raycast(myRay, out hit, grabDistance, layerMask))
                 {
                     heldObject = hit.collider.gameObject;
+                    for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
+                    {
+                        //Ian - code that puts selected block as parent for others so moving that moves the others
+                        if (puzzleScript.randomCubes[i] == heldObject)
+                        {
+                            for (int j = 0; j < puzzleScript.randomCubes.Count; j++)
+                                if (puzzleScript.randomCubes[j] != heldObject)
+                                {
+                                    puzzleScript.randomCubes[j].transform.parent = heldObject.transform;
+                                }
+                        }
+                    }
+                    
                     defaultObjectState = heldObject.GetComponent<Rigidbody>().isKinematic;
                     heldObject.GetComponent<Rigidbody>().isKinematic = true;
                 }
@@ -54,7 +71,8 @@ public class GravityGun : MonoBehaviour {
 
             }
 
-        }else
+        }
+        else
         //Object is grabbed
         {
             //Rotate to the left
@@ -76,19 +94,26 @@ public class GravityGun : MonoBehaviour {
             {
                 heldObject.GetComponent<Rigidbody>().isKinematic = defaultObjectState;
                 heldObject = null;
+
+                //Ian - added code to reset parents when user stops holding
+                for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
+                {
+                    puzzleScript.randomCubes[i].transform.parent = null;
+                }
             }
             else
             {
                 heldObject.transform.position = holdPosition.position;
             }
-            
+
         }
 
-	}
+    }
 
 
 
-    void RotateObject(GameObject obj, string orientation) {
+    void RotateObject(GameObject obj, string orientation)
+    {
 
 
         targetRotation = obj.transform.rotation;
@@ -107,6 +132,6 @@ public class GravityGun : MonoBehaviour {
 
     }
 
-    
+
 
 }
