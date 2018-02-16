@@ -7,6 +7,7 @@ public class puzzle : MonoBehaviour
     public GameObject cube;
     private GameObject[] cubes;
     public List<GameObject> randomCubes;
+    public List<int> cubeCheck;
 
     public int gameDif = 5;
 
@@ -19,7 +20,7 @@ public class puzzle : MonoBehaviour
         {
 
 
-            for (int x = 20; x < 27; x++)
+            for (int x = -100; x < -93; x++)
             {
                 Vector3 spawnPos = new Vector3(x, y, 10f);
                 Instantiate(cube, spawnPos, Quaternion.identity);
@@ -29,7 +30,7 @@ public class puzzle : MonoBehaviour
         cubes = GameObject.FindGameObjectsWithTag("EditorOnly");
         Debug.Log(cubes.Length);
 
-        randomCubes = new List<GameObject>(); //Ian - move this before cubemoving
+        randomCubes = new List<GameObject>();
 
         CubeMooving();
 
@@ -53,12 +54,18 @@ public class puzzle : MonoBehaviour
         {
 
             int cubsNumber = Random.Range(0, cubes.Length);
-            cubes[cubsNumber].transform.Translate(new Vector3(-10f, 0, 0));
-            cubes[cubsNumber].layer = 9;
-            randomCubes.Add(cubes[cubsNumber]);
+            while (!cubeCheck.Contains(cubsNumber))
+            {
+                cubes[cubsNumber].transform.Translate(new Vector3(-10f, 0, 0));
+                cubes[cubsNumber].layer = 9;
+                cubeCheck.Add(cubsNumber);
+                randomCubes.Add(cubes[cubsNumber]);
+            }
+            
 
-            cubes = GameObject.FindGameObjectsWithTag("EditorOnly");
+            
         }
+
         Debug.Log("Random cubes: " + randomCubes.Count);
 
 

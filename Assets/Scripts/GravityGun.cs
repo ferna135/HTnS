@@ -53,7 +53,7 @@ public class GravityGun : MonoBehaviour
                     heldObject = hit.collider.gameObject;
                     for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
                     {
-                        //Ian - code that puts selected block as parent for others so moving that moves the others
+                        //Code for cube puzzle, that allows to move several cube block as one
                         if (puzzleScript.randomCubes[i] == heldObject)
                         {
                             for (int j = 0; j < puzzleScript.randomCubes.Count; j++)
@@ -95,7 +95,7 @@ public class GravityGun : MonoBehaviour
                 heldObject.GetComponent<Rigidbody>().isKinematic = defaultObjectState;
                 heldObject = null;
 
-                //Ian - added code to reset parents when user stops holding
+                
                 for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
                 {
                     puzzleScript.randomCubes[i].transform.parent = null;
