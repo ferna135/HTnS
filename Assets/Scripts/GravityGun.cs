@@ -51,19 +51,7 @@ public class GravityGun : MonoBehaviour
                 if (Physics.Raycast(myRay, out hit, grabDistance, layerMask))
                 {
                     heldObject = hit.collider.gameObject;
-                    for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
-                    {
-                        //Code for cube puzzle, that allows to move several cube block as one
-                        if (puzzleScript.randomCubes[i] == heldObject)
-                        {
-                            for (int j = 0; j < puzzleScript.randomCubes.Count; j++)
-                                if (puzzleScript.randomCubes[j] != heldObject)
-                                {
-                                    puzzleScript.randomCubes[j].transform.parent = heldObject.transform;
-                                }
-                        }
-                    }
-                    
+
                     defaultObjectState = heldObject.GetComponent<Rigidbody>().isKinematic;
                     heldObject.GetComponent<Rigidbody>().isKinematic = true;
                 }
@@ -94,12 +82,6 @@ public class GravityGun : MonoBehaviour
             {
                 heldObject.GetComponent<Rigidbody>().isKinematic = defaultObjectState;
                 heldObject = null;
-
-                
-                for (int i = 0; i < puzzleScript.randomCubes.Count; i++)
-                {
-                    puzzleScript.randomCubes[i].transform.parent = null;
-                }
             }
             else
             {
